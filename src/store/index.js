@@ -1,12 +1,27 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import VuexPersist from "vuex-persist";
+
+const vuexLocalStorage = new VuexPersist({
+  key: "vuex", // The key to store the state on in the storage provider.
+  storage: window.localStorage, // or window.sessionStorage or localForage
+  // Function that passes the state and returns the state with only the objects you want to store.
+  reducer: state => ({
+    // results: state.results,
+    object: state.object
+  })
+  // Function that passes a mutation and lets you decide if it should update the state in localStorage.
+  // filter: mutation => (true)
+});
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [vuexLocalStorage.plugin],
   state: {
     results: [],
+    object: {},
     categories: [],
     questions: [],
     correct_answers: [],
@@ -15,6 +30,9 @@ export default new Vuex.Store({
   getters: {
     getResults: state => {
       return state.results;
+    },
+    getObject: state => {
+      return state.object;
     },
     getCategories: state => {
       return state.categories;
@@ -32,6 +50,7 @@ export default new Vuex.Store({
   mutations: {
     translateData: (state, results) => {
       state.results = results;
+      state.object = results.shift();
       // console.log(results);
       results.forEach(index => {
         state.categories.push(index.category);
@@ -40,6 +59,9 @@ export default new Vuex.Store({
         state.incorrect_answers.push(index.incorrect_answers);
       });
       // console.log(state.incorrect_answers);
+    },
+    clearState: state => {
+      state.object = {};
     }
   },
   actions: {

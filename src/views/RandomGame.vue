@@ -2,8 +2,8 @@
   <div class="random">
     <h2>random game</h2>
     <div class="card w-75 text-center py-4 mx-auto">
-      <Question :data="object"></Question>
-      <Answers :data="object"></Answers>
+      <Question :data="resultedObject"></Question>
+      <Answers :data="resultedObject"></Answers>
     </div>
   </div>
 </template>
@@ -19,34 +19,10 @@ export default {
     Question,
     Answers
   },
-  data: () => ({
-    object: {}
-  }),
-  methods: {
-    getObject() {
-      if (this.results) {
-        this.object = this.results.shift();
-        console.log(this.object);
-      }
-    },
-    SaveToLocal(data) {
-      window.localStorage.setItem("data", data);
-    }
-  },
   computed: {
     ...mapGetters({
-      results: "getResults"
+      resultedObject: "getObject"
     })
-  },
-  beforeCreate() {
-    this.$store.dispatch("getQuestions").then(data => {
-      try {
-        this.object = this.results.shift();
-        this.SaveToLocal(data);
-      } catch (err) {
-        console.log(err);
-      }
-    });
   }
 };
 </script>

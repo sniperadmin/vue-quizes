@@ -1,16 +1,10 @@
 <template>
   <div class="start">
     <div class="card w-50 text-center-py4 mx-auto">
-      <div class="w-75 mx-auto">
-        <img alt="Vue logo" src="../assets/logo.png" class="img-fluid" />
-      </div>
-      <h1>{{ msg }}</h1>
       <div class="w-50 mx-auto" id="btn-container">
+        <h3 class="mb-3 w-100">Vue-Quizes</h3>
         <button @click="launchGame" class="w-100 mb-3">
           start
-        </button>
-        <button class="w-100">
-          cancel
         </button>
       </div>
     </div>
@@ -20,18 +14,12 @@
 <script>
 export default {
   name: "HelloWorld",
-  props: {
-    msg: String
-  },
   data: () => ({
     // ...
   }),
   methods: {
     launchGame() {
-      // this.$store.dispatch("getQuestions").then(data => {
-      //   window.localStorage.setItem("data", data);
-      // });
-      this.$router.push("/random");
+      this.$emit("click");
     }
   }
 };

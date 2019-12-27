@@ -1,14 +1,10 @@
 <template>
   <div>
-    <!-- <p v-html="answer"></p> -->
-    <ul>
-      <li class="text-success">
-        {{ data.correct_answer }}
-      </li>
-      <li v-for="(other, index) in data.incorrect_answers" :key="index">
-        {{ other }}
-      </li>
-    </ul>
+    <button
+      v-for="(answer, index) in answers"
+      :key="index"
+      v-html="answer"
+    ></button>
   </div>
 </template>
 
@@ -22,15 +18,26 @@ export default {
     }
   },
   data: () => ({
-    answers: []
+    answers: [],
+    correct: "",
+    wrong: ""
   }),
+  methods: {
+    manageData() {}
+  },
   created() {
     let allAnswer = {
       correct: this.data.correct_answer,
       wrong: this.data.incorrect_answers
     };
-    this.answers = allAnswer;
-    console.log(this.answers);
+    this.correct = allAnswer.correct;
+    this.wrong = allAnswer.wrong;
+
+    allAnswer.wrong.forEach(element => {
+      this.answers.push(element);
+    });
+    this.answers.push(allAnswer.correct);
+    this.answers.sort();
   }
 };
 </script>
